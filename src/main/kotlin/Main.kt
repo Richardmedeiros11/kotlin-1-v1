@@ -9,6 +9,7 @@ fun main(){
     print("Digite o ID do jogo > ")
     var input:Scanner = Scanner(System.`in`)
     var input2 = input.nextLine()
+    var uri = "https://www.cheapshark.com/api/1.0/games?id=${input2}"
     /** O Client é aquele que vai fazer a request.
      * O request é aquilo que o client irá enviar.
      * O response é a junção do client e do request.
@@ -16,7 +17,7 @@ fun main(){
      */
     val client: HttpClient = HttpClient.newHttpClient()
     val request = HttpRequest.newBuilder()
-        .uri(URI.create("https://www.cheapshark.com/api/1.0/games?id=${input2}"))
+        .uri(URI.create(uri))
         .build()
     val response = client
         .send(request, BodyHandlers.ofString())
