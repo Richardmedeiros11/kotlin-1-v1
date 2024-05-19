@@ -31,10 +31,29 @@ fun main(){
      *  Transformamos o json para uma class
      * */
     val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
-
-    val meuJogo= Jogo(
-            titulo=meuInfoJogo.info.title,
-            capa=meuInfoJogo.info.thumb,
+    var meuJogo:Jogo? = null
+    val resultado = runCatching {
+        meuJogo = Jogo(
+            meuInfoJogo.info.title,
+            meuInfoJogo.info.thumb,
         )
-    println(meuJogo)
+        println(meuJogo)
+    }
+    resultado.onFailure {
+        println("Erro Id inexistente")
+    }
+    resultado.onSuccess {
+        print("Deseja colocar uma descrição? (S/N) > ")
+        val descri1 = input.nextLine()
+        if(descri1.equals("S", true)){
+            print("Digite a descrição > ")
+            val descricao = input.nextLine()
+             meuJogo?.descrição = descricao
+            println(meuJogo)
+        }else{
+            println("Ok, Colocaremos a descrição padrão...")
+            meuJogo?.descrição = meuJogo?.titulo
+            println(meuJogo)
+        }
+    }
 }
